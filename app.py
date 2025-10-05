@@ -6,6 +6,8 @@ from streamlit_folium import st_folium
 import json
 import requests
 from streamlit_lottie import st_lottie
+import time
+import random
 
 # Import backend
 from data_fetching import predict_weather
@@ -371,7 +373,7 @@ def get_custom_css(persona):
     /* Easter egg hint */
     .easter-egg-hint {{
         position: fixed;
-        top: 10px;
+        top: 60px;
         right: 10px;
         font-size: 0.7rem;
         color: rgba(150, 150, 150, 0.3);
@@ -473,8 +475,29 @@ def load_lottieurl(url):
 lottie_spinner = load_lottieurl("https://assets7.lottiefiles.com/packages/lf20_usmfx6bp.json")  # spinner
 
 
+def show_timed_toast(message, theme_color="#388E3C", duration=3):
+    toast_placeholder = st.empty()  # create a temporary placeholder
+    toast_placeholder.markdown(f"""
+    <div style="
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        background: {theme_color};
+        color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        z-index: 9999;
+        font-weight: 600;
+    ">
+        {message}
+    </div>
+    """, unsafe_allow_html=True)
 
-# Easter egg hint (subtle)
+    time.sleep(duration)       # wait for few seconds
+    toast_placeholder.empty()  # remove it
+
+
 # Easter egg hint (subtle)
 st.markdown("""
 <div id="easter_hint" class="easter-egg-hint" title="Try clicking me 5 times!">✨</div>
@@ -520,7 +543,7 @@ st.markdown(f"""
 # Persona selector in sidebar
 with st.sidebar:
     st.title("Settings & Persona")
-    st.markdown("### 🎭 Choose Your Weather Persona")
+    st.markdown("### Choose Your Weather Persona")
     st.markdown("---")
     
     for key, persona in PERSONAS.items():
@@ -545,17 +568,22 @@ with st.sidebar:
     
     # Easter egg tracker
     st.markdown("---")
-    if st.button("🎯 Click the hint 5 times!", use_container_width=True, key="easter_trigger"):
+    if st.button("✨", use_container_width=True, key="easter_trigger"):
         st.session_state.character_clicks += 1
         if st.session_state.character_clicks >= 5 and not st.session_state.easter_egg_found:
             st.session_state.easter_egg_found = True
-            st.balloons()
-            st.success("🎉 You found the secret! You're a weather explorer!")
+            # Persona-based effect
+            if st.session_state.persona == "snow_enthusiast":
+                st.snow()
+                show_timed_toast("❄️ Snow activated!", theme_color="#90CAF9", duration=8)
+            else:
+                st.balloons()
+                show_timed_toast("🎈 Balloons activated!", theme_color="#FFB74D", duration=8)
     
     if st.session_state.easter_egg_found:
         st.markdown("### 🌟 Achievement Unlocked!")
         st.markdown("**Weather Explorer Badge**")
-        st.markdown("*You discovered the hidden feature!*")
+        st.markdown("*You discovered the easter-egg*")
     st.markdown("</div>", unsafe_allow_html=True)
 
 
@@ -829,6 +857,7 @@ if st.session_state.predictions:
                     st.error(f"Failed to generate card: {str(e)}")
 
                     st.info("The card generator requires PIL/Pillow library.")
+
 
 
 
