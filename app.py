@@ -633,11 +633,10 @@ if st.session_state.location:
         # except Exception as e:
         #     st.error(f"NASA API test failed: {e}")
 
-        st.write("Fetching POWER data with params:", params)
-        resp = requests.get(self.base_url, params=params, timeout=30)
-        st.write("URL:", resp.url)
-        st.write("Status code:", resp.status_code)
-        st.write("Response:", resp.text[:200])
+        st.write("Fetching POWER data with lats:", st.session_state.location['lat'])
+        st.write("longs:", st.session_state.location['lon'])
+        st.write("years back :", st.session_state.years_back)
+        st.write("nmc:", st.session_state.n_ensemble)
 
 
         with st.empty():
@@ -830,5 +829,6 @@ if st.session_state.predictions:
                     st.error(f"Failed to generate card: {str(e)}")
 
                     st.info("The card generator requires PIL/Pillow library.")
+
 
 
