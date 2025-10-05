@@ -239,10 +239,7 @@ class WeatherPredictor:
         target_year = target_date.year
         target_doy = target_date.timetuple().tm_yday
         # Determine last historical year
-        if include_current_year:
-            end_year = target_year
-        else:
-            end_year = target_year - 1  # Don't include incomplete current year
+        end_year = target_year - 1  # Don't include incomplete current year
         
         print(f"Fetching historical data for {lat:.4f}°N, {lon:.4f}°E")
         print(f"Target: {target_date.strftime('%Y-%m-%d')}")
@@ -370,4 +367,5 @@ if __name__ == "__main__":
         print(f"  Mean: {stats['mean']:.2f} {stats['unit']}")
         print(f"  Range: [{stats['p5']:.2f}, {stats['p95']:.2f}] {stats['unit']}")
         if 'probability' in stats:
+
             print(f"  Probability: {stats['probability']:.1%}")
