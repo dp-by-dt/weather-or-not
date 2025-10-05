@@ -625,13 +625,13 @@ st.markdown('</div>', unsafe_allow_html=True)
 if st.session_state.location:
     if st.button("🔮 Predict Weather", use_container_width=True):
         st.write("Testing NASA POWER API...")
-        test_url = "https://power.larc.nasa.gov/api/temporal/hourly/point?parameters=T2M&latitude=10&longitude=76&start=20240101&end=20240102&format=JSON"
-        try:
-            r = requests.get(test_url, timeout=20)
-            st.write("Response code:", r.status_code)
-            st.write("First 100 chars:", r.text[:100])
-        except Exception as e:
-            st.error(f"NASA API test failed: {e}")
+        # test_url = "https://power.larc.nasa.gov/api/temporal/hourly/point?parameters=T2M&latitude=10&longitude=76&start=20240101&end=20240102&format=JSON"
+        # try:
+        #     r = requests.get(test_url, timeout=20)
+        #     st.write("Response code:", r.status_code)
+        #     st.write("First 100 chars:", r.text[:100])
+        # except Exception as e:
+        #     st.error(f"NASA API test failed: {e}")
 
         with st.empty():
             try:
@@ -823,3 +823,4 @@ if st.session_state.predictions:
                     st.error(f"Failed to generate card: {str(e)}")
 
                     st.info("The card generator requires PIL/Pillow library.")
+
