@@ -633,6 +633,13 @@ if st.session_state.location:
         # except Exception as e:
         #     st.error(f"NASA API test failed: {e}")
 
+        st.write("Fetching POWER data with params:", params)
+        resp = requests.get(self.base_url, params=params, timeout=30)
+        st.write("URL:", resp.url)
+        st.write("Status code:", resp.status_code)
+        st.write("Response:", resp.text[:200])
+
+
         with st.empty():
             try:
                 st_lottie(lottie_spinner, height=150, key="loading_spinner")
@@ -823,4 +830,5 @@ if st.session_state.predictions:
                     st.error(f"Failed to generate card: {str(e)}")
 
                     st.info("The card generator requires PIL/Pillow library.")
+
 
