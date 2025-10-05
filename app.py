@@ -105,10 +105,26 @@ def get_custom_css(persona):
     .stApp {{
         background: linear-gradient(135deg, {theme['secondary']} 0%, #ffffff 100%);
     }}
-    
+
+    header {{visibility: visible}}
     #MainMenu {{visibility: hidden;}}
     footer {{visibility: hidden;}}
-    header {{visibility: hidden;}}
+
+    /* Header background & text */
+    header {{
+        background: {theme['secondary']} !important;
+        color: #333 !important;
+        border-bottom: 1px solid {theme['primary']}40 !important;
+    }}
+
+    /* Sidebar content top-aligned and scrollable */
+    [data-testid="stSidebar"] > div:first-child {{
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important; /* top align */
+        overflow-y: auto !important;
+        max-height: 100vh !important;
+    }}
     
     .main-header {{
         text-align: center;
@@ -503,7 +519,6 @@ st.markdown(f"""
 
 # Persona selector in sidebar
 with st.sidebar:
-    st.markdown("<div style='overflow-y:auto; height:90vh;'>", unsafe_allow_html=True)
     st.title("Settings & Persona")
     st.markdown("### 🎭 Choose Your Weather Persona")
     st.markdown("---")
@@ -814,6 +829,7 @@ if st.session_state.predictions:
                     st.error(f"Failed to generate card: {str(e)}")
 
                     st.info("The card generator requires PIL/Pillow library.")
+
 
 
 
