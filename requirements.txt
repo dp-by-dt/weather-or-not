@@ -1,9 +1,11 @@
 streamlit
 pandas
 numpy
+xarray
+scipy
+netcdf4
 requests
+Pillow
 folium
 streamlit-folium
 streamlit-lottie
-Pillow
-xarray
